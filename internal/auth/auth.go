@@ -38,7 +38,7 @@ func GenerateToken(userId uint, userName string) (string, error) {
 	}
 
 	//create token with HS256
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// sign token with secret
 	// the signature ensures the token cannot be modified without the secret key
 	return token.SignedString([]byte(secret))
