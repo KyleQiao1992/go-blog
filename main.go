@@ -33,6 +33,16 @@ func main() {
 	authGroup.POST("/register", handlers.Register)
 	authGroup.POST("/login", handlers.Login)
 
+	// Post routes (protected for write: create, update, delete).
+	postProtectedGroup := api.Group("/posts")
+	postProtectedGroup.Use(handlers.AuthMiddleware())
+	postProtectedGroup.POST("", handlers.CreatePost)
+	postProtectedGroup.PUT("/:id", handlers.UpdatePost)
+	postProtectedGroup.DELETE("/:id", handlers.DeletePost)
+
+	postProtectedGroup.POST("/:id/comments", handlers.CreateComment) //
+
+	// Example of a protected route for testing JWT.
 	protected := api.Group("/protected")
 	protected.Use(handlers.AuthMiddleware())
 	protected.GET("/me", func(c *gin.Context) {
