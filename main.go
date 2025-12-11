@@ -5,11 +5,15 @@ import (
 
 	"go-blog/internal/db"
 	"go-blog/internal/handlers"
+	"go-blog/internal/logging"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	logging.Init()
+	logging.Logger.Info("logger Init")
+
 	db.InitDB()
 
 	router := gin.Default()
