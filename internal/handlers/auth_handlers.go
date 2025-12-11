@@ -5,6 +5,7 @@ import (
 
 	"go-blog/internal/auth"
 	"go-blog/internal/db"
+	"go-blog/internal/logging"
 	"go-blog/internal/models"
 
 	"github.com/gin-gonic/gin"
@@ -60,6 +61,11 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	logging.Logger.WithFields(map[string]interface{}{
+		"userID":   user.ID,
+		"username": user.Username,
+	}).Info("user registered successfully")
+
 	c.JSON(http.StatusCreated, gin.H{
 		"id":       user.ID,
 		"username": user.Username,
@@ -99,6 +105,11 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+
+	logging.Logger.WithFields(map[string]interface{}{
+		"userID":   user.ID,
+		"username": user.Username,
+	}).Info("user logged in successfully")
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
